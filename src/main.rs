@@ -1,30 +1,16 @@
 use clap::Parser;
-#[derive(Debug, Parser)]
-#[command(name = "rcli", version,author,about,long_about=None)]
-struct Opts {
-    #[command(subcommand)]
-    cmd: Subcommand,
-}
+use rcli::{process_csv, Opts, Subcommand};
 
-#[derive(Debug, Parser)]
-enum Subcommand {
-    #[command(name = "csv", about = "csv command")]
-    Csv(CsvOpts),
-}
+// rcli csv -input input.csv -output output.json -delimiter , -header
 
-#[derive(Debug, Parser)]
-struct CsvOpts {
-    #[arg(short, long)]
-    input: String,
+fn main() -> anyhow::Result<()> {
+    let opts = Opts::parse();
+    // match opts.cmd {
+    //     Subcommand::Csv(csv_opts) => println!("{:?}", csv_opts),
+    // }
+    match opts.cmd {
+        Subcommand::Csv(opts) => process_csv(&opts.input, &opts.output)?,
+    }
 
-    #[arg(short, long, default_value = "output.json")]
-    output: String,
-    #[arg(short, long)]
-    delimiter: char,
-    #[arg(short, long, default_value_t = true)]
-    header: bool,
-}
-
-fn main() {
-    println!("Hello, Rust!");
+    Ok(())
 }
