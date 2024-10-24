@@ -1,4 +1,5 @@
 use rand::seq::SliceRandom;
+use zxcvbn::zxcvbn;
 
 pub fn gen_pass(
     length: u8,
@@ -35,6 +36,9 @@ pub fn gen_pass(
         password.push(*c as char);
     }
     println!("{}", password);
+
+    let result = zxcvbn(&password, &[]);
+    println!("{:?}", result);
 
     Ok(())
 }
