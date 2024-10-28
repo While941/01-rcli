@@ -27,6 +27,9 @@ fn main() -> anyhow::Result<()> {
                 password.symbol,
             )
         }?,
+        Subcommand::Base64(base64) => {
+            println!("{:?}", base64)
+        }
     }
 
     Ok(())
