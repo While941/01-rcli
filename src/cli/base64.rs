@@ -4,6 +4,11 @@ use std::str::FromStr;
 use crate::cli::verify_file_exists;
 use clap::Parser;
 
+///
+/// 使用linux bash 使用该命令生成的默认格式是UTF-8，VSCode使用该命令生成的默认格式是UTF-16LE
+
+//TODO: add base64 encode and decode cargo run -- base64 encode --input cargo.toml > tmp.b64
+
 #[derive(Debug, Parser)]
 pub enum Base64Options {
     #[command(name = "encode", about = "Encode a string to base64")]
@@ -14,7 +19,7 @@ pub enum Base64Options {
 
 #[derive(Debug, Parser)]
 pub struct Base64OptionsEncode {
-    #[arg(long,value_parser = verify_file_exists, default_value = "-", help = "- means stdin")]
+    #[arg(short,long,value_parser = verify_file_exists, default_value = "-", help = "- means stdin")]
     pub input: String,
     #[arg(long,value_parser = parse_base64_format,default_value = "UrlSafe",help = "url safe or standard")]
     pub format: Base64Format,
